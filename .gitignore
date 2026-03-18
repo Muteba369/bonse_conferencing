@@ -22,7 +22,6 @@ yarn.lock
 
 # Build
 dist/
-build/
 .next/
 .vercel/
 .netlify/
