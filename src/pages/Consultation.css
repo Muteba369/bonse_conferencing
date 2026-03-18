@@ -1,0 +1,143 @@
+.consultation-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  overflow: hidden;
+  position: relative;
+}
+
+.consultation-container.loading {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  flex-direction: column;
+  gap: 16px;
+}
+
+.consultation-container.loading p {
+  color: white;
+  font-size: 16px;
+}
+
+.consultation-container.error {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.error-content {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 500px;
+}
+
+.error-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.error-content h2 {
+  color: #d32f2f;
+  margin-bottom: 12px;
+  font-size: 24px;
+}
+
+.error-content p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.error-details {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  font-size: 14px;
+  color: #999;
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 9999;
+}
+
+.loading-overlay p {
+  color: white;
+  font-size: 16px;
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Jitsi IFrame styling */
+.consultation-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+@media (max-width: 768px) {
+  .error-content {
+    padding: 30px 20px;
+  }
+
+  .error-content h2 {
+    font-size: 20px;
+  }
+
+  .error-content p {
+    font-size: 14px;
+  }
+
+  .error-icon {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .error-content {
+    padding: 24px 16px;
+    border-radius: 12px;
+  }
+
+  .error-content h2 {
+    font-size: 18px;
+  }
+
+  .error-content p {
+    font-size: 13px;
+  }
+
+  .error-icon {
+    font-size: 40px;
+  }
+}

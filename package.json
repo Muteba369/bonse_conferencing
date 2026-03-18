@@ -1,0 +1,54 @@
+{
+  "name": "bonse-conferencing",
+  "version": "1.0.0",
+  "description": "Video conferencing web app for Bonse Hub Connect using Jitsi React SDK",
+  "keywords": ["jitsi", "react", "video", "conferencing", "telemedicine", "healthcare"],
+  "author": "Bonse Hub Connect",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/bonse-conferencing.git"
+  },
+  "private": true,
+  "homepage": "./",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@jitsi/react-sdk": "^1.3.1",
+    "react-router-dom": "^6.8.0",
+    "axios": "^1.3.0"
+  },
+  "devDependencies": {
+    "react-scripts": "5.0.1",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

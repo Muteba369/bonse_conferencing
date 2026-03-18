@@ -1,0 +1,11 @@
+{
+  "rewrites": [
+    {
+      "source": "/consultation",
+      "destination": "/consultation.html"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
