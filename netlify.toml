@@ -1,6 +1,7 @@
 [build]
-  publish = "."
-  command = "echo 'No build required'"
+  base = "."
+  publish = "build"
+  command = "npm run build"
 
 # SPA rewrite for React Router (serves index.html for all routes)
 [[redirects]]
