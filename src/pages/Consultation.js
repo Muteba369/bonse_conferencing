@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { JitsiMeeting } from '@jitsi/react-sdk';
+import { JaaSMeeting } from '@jitsi/react-sdk';
 import './Consultation.css';
 
 export default function Consultation() {
@@ -10,6 +10,7 @@ export default function Consultation() {
   const [jitsiReady, setJitsiReady] = useState(false);
   const [token, setToken] = useState(null);
   const [roomStatus, setRoomStatus] = useState(null);
+  const [loadingTime, setLoadingTime] = useState(0);
 
   // Get parameters from URL
   const room = searchParams.get('room');
@@ -23,6 +24,12 @@ export default function Consultation() {
       setIsValidating(false);
       return;
     }
+
+    // Track loading time
+    const startTime = Date.now();
+    const timer = setInterval(() => {
+      setLoadingTime(Math.floor((Date.now() - startTime) / 1000));
+    }, 1000);
 
     // Call backend to create/join room and get JWT token
     const initializeRoom = async () => {
@@ -67,6 +74,8 @@ export default function Consultation() {
     };
 
     initializeRoom();
+
+    return () => clearInterval(timer);
   }, [room, name, backendUrl]);
 
   const handleApiReady = (externalApi) => {
@@ -91,6 +100,10 @@ export default function Consultation() {
       console.log('Participant left:', event);
     });
 
+    externalApi.addEventListener('conferenceLeft', () => {
+      console.log('Conference left');
+    });
+
     externalApi.addEventListener('audioMuted', () => {
       console.log('Audio muted');
     });
@@ -109,6 +122,10 @@ export default function Consultation() {
 
     externalApi.addEventListener('screenSharingStatusChanged', (event) => {
       console.log('Screen sharing status:', event.detail.on);
+    });
+
+    externalApi.addEventListener('errorOccurred', (event) => {
+      console.error('Jitsi Error:', event);
     });
   };
 
@@ -153,6 +170,8 @@ export default function Consultation() {
       <div className="consultation-container loading">
         <div className="spinner"></div>
         <p>Setting up {roomStatus === 'create' ? 'new' : ''} video conference...</p>
+        {loadingTime > 5 && <p style={{ marginTop: '20px', fontSize: '14px', color: '#999' }}>Connecting ({loadingTime}s)</p>}
+        {loadingTime > 15 && <p style={{ marginTop: '10px', fontSize: '12px', color: '#f44' }}>Taking longer than expected. Check browser console for errors.</p>}
       </div>
     );
   }
@@ -163,10 +182,13 @@ export default function Consultation() {
         <div className="loading-overlay">
           <div className="spinner"></div>
           <p>Loading video conference...</p>
+          {loadingTime > 10 && <p style={{ marginTop: '20px', fontSize: '14px', color: '#999' }}>Still loading ({loadingTime}s)</p>}
+          {loadingTime > 20 && <p style={{ marginTop: '10px', fontSize: '12px', color: '#f44' }}>This is taking longer than expected.<br/>Try refreshing the page or checking console (F12).</p>}
         </div>
       )}
 
-      <JitsiMeeting
+      <JaaSMeeting
+        appId='vpaas-magic-cookie-e0639374f5fa4303a76309ce45dcb7be'
         roomName={room}
         jwt={token}
         configOverwrite={{
