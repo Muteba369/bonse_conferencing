@@ -4,7 +4,7 @@
   command = "npm run build"
 
 # SPA rewrite for React Router (serves index.html for all routes)
-[[redirects]]
+[[redirects]] 
   from = "/*"
   to = "/index.html"
   status = 200

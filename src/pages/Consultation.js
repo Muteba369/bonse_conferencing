@@ -8,22 +8,67 @@ export default function Consultation() {
   const [isValidating, setIsValidating] = useState(true);
   const [error, setError] = useState(null);
   const [jitsiReady, setJitsiReady] = useState(false);
+  const [token, setToken] = useState(null);
+  const [roomStatus, setRoomStatus] = useState(null);
 
   // Get parameters from URL
   const room = searchParams.get('room');
-  const token = searchParams.get('token');
   const name = searchParams.get('name') ? decodeURIComponent(searchParams.get('name')) : 'Guest';
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://bonse-backend.onrender.com';
+  const appId = process.env.REACT_APP_JITSI_APP_ID || 'vpaas-magic-cookie-e0639374f5fa4303a76309ce45dcb7be';
 
   useEffect(() => {
-    // Validate parameters
-    if (!room || !token) {
-      setError('Invalid consultation link: missing room or token parameter');
+    // Validate room parameter
+    if (!room) {
+      setError('Invalid consultation link: missing room parameter');
       setIsValidating(false);
       return;
     }
 
-    setIsValidating(false);
-  }, [room, token]);
+    // Call backend to create/join room and get JWT token
+    const initializeRoom = async () => {
+      try {
+        console.log(`Initializing room: ${room}`);
+
+        // Call backend endpoint to create or join room
+        const response = await fetch(
+          `${backendUrl}/api/video/rooms/${encodeURIComponent(room)}/?name=${encodeURIComponent(name)}`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Backend error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log('Room response:', data);
+
+        // Set the token and room status
+        setToken(data.token);
+        setRoomStatus(data.action); // 'create' or 'join'
+
+        // Show message based on action
+        if (data.action === 'create') {
+          console.log('Room created successfully');
+        } else if (data.action === 'join') {
+          console.log('Joining existing room');
+        }
+
+        setIsValidating(false);
+      } catch (err) {
+        console.error('Error initializing room:', err);
+        setError(`Failed to initialize video room: ${err.message}`);
+        setIsValidating(false);
+      }
+    };
+
+    initializeRoom();
+  }, [room, name, backendUrl]);
 
   const handleApiReady = (externalApi) => {
     console.log('Jitsi API is ready');
@@ -103,6 +148,16 @@ export default function Consultation() {
     );
   }
 
+  // Show loading state while waiting for token
+  if (!token) {
+    return (
+      <div className="consultation-container loading">
+        <div className="spinner"></div>
+        <p>Setting up {roomStatus === 'create' ? 'new' : ''} video conference...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="consultation-container">
       {!jitsiReady && (
@@ -113,6 +168,7 @@ export default function Consultation() {
       )}
 
       <JitsiMeeting
+        appId = {appId}
         roomName={room}
         jwt={token}
         configOverwrite={{
