@@ -9,6 +9,21 @@
   position: relative;
 }
 
+.jitsi-meeting-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.jitsi-meeting-container iframe,
+.jitsi-meeting-container div {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .consultation-container.loading {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   flex-direction: column;

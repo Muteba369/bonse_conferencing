@@ -187,46 +187,48 @@ export default function Consultation() {
         </div>
       )}
 
-      <JaaSMeeting
-        appId='vpaas-magic-cookie-e0639374f5fa4303a76309ce45dcb7be'
-        roomName={room}
-        jwt={token}
-        configOverwrite={{
-          startWithAudioMuted: false,
-          startWithVideoMuted: false,
-          disableAudioLevels: false,
-          enableLayerSuspension: true,
-          disableSimulcast: false,
-        }}
-        interfaceConfigOverwrite={{
-          SHOW_JITSI_WATERMARK: false,
-          SHOW_BRAND_WATERMARK: false,
-          DISPLAY_WELCOME_PAGE: false,
-          TOOLBAR_TIMEOUT: 4000,
-          DEFAULT_BACKGROUND: '#000',
-          SHOW_CHROME_EXTENSION_BANNER: false,
-          TOOLBAR_BUTTONS: [
-            'microphone',
-            'camera',
-            'desktop',
-            'fullscreen',
-            'hangup',
-            'settings',
-            'stats',
-          ],
-        }}
-        userInfo={{
-          displayName: name,
-        }}
-        onApiReady={handleApiReady}
-        onReadyToClose={() => {
-          console.log('Ready to close');
-          handleCallEnded();
-        }}
-        getIFrameRef={(iframeRef) => {
-          console.log('iFrame reference:', iframeRef);
-        }}
-      />
+      <div className="jitsi-meeting-container">
+        <JaaSMeeting
+          appId='vpaas-magic-cookie-e0639374f5fa4303a76309ce45dcb7be'
+          roomName={room}
+          jwt={token}
+          configOverwrite={{
+            startWithAudioMuted: false,
+            startWithVideoMuted: false,
+            disableAudioLevels: false,
+            enableLayerSuspension: true,
+            disableSimulcast: false,
+          }}
+          interfaceConfigOverwrite={{
+            SHOW_JITSI_WATERMARK: false,
+            SHOW_BRAND_WATERMARK: false,
+            DISPLAY_WELCOME_PAGE: false,
+            TOOLBAR_TIMEOUT: 4000,
+            DEFAULT_BACKGROUND: '#000',
+            SHOW_CHROME_EXTENSION_BANNER: false,
+            TOOLBAR_BUTTONS: [
+              'microphone',
+              'camera',
+              'desktop',
+              'fullscreen',
+              'hangup',
+              'settings',
+              'stats',
+            ],
+          }}
+          userInfo={{
+            displayName: name,
+          }}
+          onApiReady={handleApiReady}
+          onReadyToClose={() => {
+            console.log('Ready to close');
+            handleCallEnded();
+          }}
+          getIFrameRef={(iframeRef) => {
+            console.log('iFrame reference:', iframeRef);
+          }}
+        />
+      </div>
     </div>
   );
 }
