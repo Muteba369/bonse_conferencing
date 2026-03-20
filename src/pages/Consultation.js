@@ -15,7 +15,6 @@ export default function Consultation() {
   const room = searchParams.get('room');
   const name = searchParams.get('name') ? decodeURIComponent(searchParams.get('name')) : 'Guest';
   const backendUrl = process.env.REACT_APP_BACKEND_URL || 'https://bonse-backend.onrender.com';
-  const appId = process.env.REACT_APP_JITSI_APP_ID || 'vpaas-magic-cookie-e0639374f5fa4303a76309ce45dcb7be';
 
   useEffect(() => {
     // Validate room parameter
@@ -168,7 +167,6 @@ export default function Consultation() {
       )}
 
       <JitsiMeeting
-        appId = {appId}
         roomName={room}
         jwt={token}
         configOverwrite={{
